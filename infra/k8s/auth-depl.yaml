@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-depl
+spec:
+  replicas: 1 # number of pods to run
+  selector:
+    matchLabels: #Tell deployment how to find all the pods that it's going to create
+      app: auth
+  template: # How to create each individual pods
+    metadata:
+      labels:
+        app: auth
+    spec: #Tell the pod how to behave
+      containers:
+        - name: auth # only for logging
+          image: orion232/auth
+#Service define
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-srv
+spec: #tell services how to behave
+  selector: #how to find pod that govern access to
+    app: auth
+  type: ClusterIP
+  ports: #ports to expose
+    - name: auth
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

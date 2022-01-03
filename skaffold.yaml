@@ -1,0 +1,18 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/k8s/*
+build:
+  local:
+    push: false #do not push to docker hub
+  artifacts: #everyhing needs to be built
+    - image: orion232/auth
+      context: auth #folder contains the image
+      docker:
+        dockerfile: Dockerfile
+      sync: #how to handle all the files changes
+        manual:
+          - src: "src/**/*.ts"
+            dest: . #where to sync the file to
