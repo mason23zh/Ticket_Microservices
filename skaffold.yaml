@@ -5,10 +5,12 @@ deploy:
     manifests:
       - ./infra/k8s/*
 build:
-  local:
-    push: false #do not push to docker hub
+  #local:
+  #  push: false #do not push to docker hub
+  googleCloudBuild:
+    projectId: ticket-dev-337200
   artifacts: #everyhing needs to be built
-    - image: orion232/auth
+    - image: us.gcr.io/ticket-dev-337200/auth #orion232/auth for local build
       context: auth #folder contains the image
       docker:
         dockerfile: Dockerfile

@@ -14,7 +14,7 @@ spec:
     spec: #Tell the pod how to behave
       containers:
         - name: auth # only for logging
-          image: orion232/auth
+          image: us.gcr.io/ticket-dev-337200/auth
 #Service define
 ---
 apiVersion: v1
