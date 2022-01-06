@@ -43,6 +43,7 @@ userSchema.statics.build = (attrs: UserAttrs) => {
 //new User.build() will create new User
 //This will use typescript's type check
 
+// second argus in the <> defines the return type, UserModel in this case
 const User = mongoose.model<UserDoc, UserModel>("User", userSchema);
 
 export { User };
