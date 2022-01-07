@@ -31,10 +31,26 @@ interface UserModel extends mongoose.Model<UserDoc> {
 //   id: string;
 // }
 
-const userSchema = new mongoose.Schema({
-  email: { type: String, required: true },
-  password: { type: String, required: true },
-});
+const userSchema = new mongoose.Schema(
+  {
+    email: { type: String, required: true },
+    password: { type: String, required: true },
+  },
+  {
+    toJSON: {
+      // Formatting JSON properties
+      transform(doc, ret) {
+        //remove _ from the id
+        ret.id = ret._id;
+        delete ret._id;
+        // remove password properties from the object
+        delete ret.password;
+        // remove version key properties
+        delete ret.__v;
+      },
+    },
+  }
+);
 
 //middleware in mongoose to run password hash
 userSchema.pre("save", async function (done) {
