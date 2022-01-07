@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import { Password } from "../services/password";
 
 // An interface that describes the properties
 // that are required to create a user
@@ -33,6 +34,16 @@ interface UserModel extends mongoose.Model<UserDoc> {
 const userSchema = new mongoose.Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
+});
+
+//middleware in mongoose to run password hash
+userSchema.pre("save", async function (done) {
+  //prevent re-hash the password if only email change in the futuer
+  if (this.isModified("password")) {
+    const hashed = await Password.toHash(this.get("password"));
+    this.set("password", hashed);
+  }
+  done();
 });
 
 //adding new build function into userSchema

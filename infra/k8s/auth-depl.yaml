@@ -16,6 +16,12 @@ spec:
         - name: auth # only for logging
           #image: us.gcr.io/ticket-dev-337200/auth gcloud build
           image: orion232/auth
+          env:
+            - name: JWT_KEY # show inside the app
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
 #Service define
 ---
 apiVersion: v1
