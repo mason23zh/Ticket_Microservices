@@ -9,11 +9,18 @@ spec:
   rules:
     - host: ticketing.dev #'pretend' domain name, only connect from local machine
       http:
-        paths:
+        paths: #incomming request will be match in ORDER
           - path: /api/users/?(.*) #/api/user/anything
             pathType: Prefix
             backend:
               service:
                 name: auth-srv
+                port:
+                  number: 3000
+          - path: /?(.*) #catch all request
+            pathType: Prefix
+            backend:
+              service:
+                name: client-srv
                 port:
                   number: 3000

@@ -18,3 +18,11 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: . #where to sync the file to
+    - image: orion232/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "**/*.js"
+            dest: .
