@@ -5,6 +5,7 @@ const LandingPage = ({ currentUser }) => {
 };
 
 LandingPage.getInitialProps = async (context) => {
+  console.log("landing page");
   //build client is a pre-config axios object
   const client = buildClient(context);
 
