@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tickets-depl
+spec:
+  replicas: 1 # number of pods to run
+  selector:
+    matchLabels: #Tell deployment how to find all the pods that it's going to create
+      app: tickets
+  template: # How to create each individual pods
+    metadata:
+      labels:
+        app: tickets
+    spec: #Tell the pod how to behave
+      containers:
+        - name: tickets # only for logging
+          #image: us.gcr.io/ticket-dev-337200/auth gcloud build
+          image: orion232/tickets
+          env:
+            - name: JWT_KEY # show inside the app
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+#Service define
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tickets-srv
+spec: #tell services how to behave
+  selector: #how to find pod that govern access to
+    app: tickets
+  type: ClusterIP
+  ports: #ports to expose
+    - name: tickets
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

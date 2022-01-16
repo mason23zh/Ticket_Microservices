@@ -26,3 +26,11 @@ build:
         manual:
           - src: "**/*.js"
             dest: .
+    - image: orion232/tickets
+      context: tickets #folder contains the image
+      docker:
+        dockerfile: Dockerfile
+      sync: #how to handle all the files changes
+        manual:
+          - src: "src/**/*.ts"
+            dest: . #where to sync the file to
