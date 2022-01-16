@@ -17,6 +17,8 @@ spec:
           #image: us.gcr.io/ticket-dev-337200/auth gcloud build
           image: orion232/auth
           env:
+            - name: MONGO_URI
+              value: "mongodb://auth-mongo-srv:27017/auth"
             - name: JWT_KEY # show inside the app
               valueFrom:
                 secretKeyRef:

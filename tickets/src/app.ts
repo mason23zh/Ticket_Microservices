@@ -2,6 +2,9 @@ import express from "express";
 import "express-async-errors"; //handle express errors, no needs to pass the new Error into the next() function
 import { json } from "body-parser";
 import cookieSession from "cookie-session";
+import { Request, Response } from "express";
+
+import { NotFoundError, errorHandler } from "@ortick/new-common";
 
 const app = express();
 app.set("trust proxy", true);
@@ -13,7 +16,7 @@ app.use(
   })
 );
 
-app.all("*", async (req, res) => {
+app.all("*", async (req: Request, res: Response) => {
   throw new NotFoundError();
 });
 
