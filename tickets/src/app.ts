@@ -4,7 +4,9 @@ import { json } from "body-parser";
 import cookieSession from "cookie-session";
 import { Request, Response } from "express";
 
-import { NotFoundError, errorHandler } from "@ortick/new-common";
+import { NotFoundError, currentUser } from "@ortick/new-common";
+
+import { createTicketRouter } from "./routes/new";
 
 const app = express();
 app.set("trust proxy", true);
@@ -16,10 +18,12 @@ app.use(
   })
 );
 
+app.use(currentUser);
+
+app.use(createTicketRouter);
+
 app.all("*", async (req: Request, res: Response) => {
   throw new NotFoundError();
 });
-
-app.use(errorHandler);
 
 export { app };
