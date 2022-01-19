@@ -1,15 +1,21 @@
 import { Message, Stan } from "node-nats-streaming";
+import { Subjects } from "./subjects";
 
-export abstract class Listener {
+interface Event {
+  subject: Subjects;
+  data: any;
+}
+
+export abstract class Listener<T extends Event> {
   /**
    * Function to run when a message is received
    */
-  abstract onMessage(data: any, msg: Message): void;
+  abstract onMessage(data: T["data"], msg: Message): void;
 
   /**
    * Name of the queue group this listener will join
    */
-  abstract subject: string;
+  abstract subject: T["subject"];
   abstract queueGroupName: string;
 
   /**
