@@ -9,15 +9,19 @@ const stan = nats.connect("ticketing", "abc", {
 });
 
 // listen to 'connect' event after stan been connected
-stan.on("connect", () => {
+stan.on("connect", async () => {
   console.log("publisher connected to NATS");
 
   const publisher = new TicketCreatedPublisher(stan);
-  publisher.publish({
-    id: "123",
-    title: "concert",
-    price: 20,
-  });
+  try {
+    await publisher.publish({
+      id: "123",
+      title: "concert",
+      price: 20,
+    });
+  } catch (err) {
+    console.error(err);
+  }
 
   // NATS can only take data as string format
   // const data = JSON.stringify({
