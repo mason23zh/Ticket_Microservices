@@ -17,6 +17,14 @@ spec:
           #image: us.gcr.io/ticket-dev-337200/auth gcloud build
           image: orion232/tickets
           env:
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name #use pod name as nat client id
+            - name: NATS_URL
+              value: "http://nats-srv:4222"
+            - name: NATS_CLUSTER_ID
+              value: ticketing
             - name: MONGO_URI
               value: "mongodb://tickets-mongo-srv:27017/tickets"
             - name: JWT_KEY # show inside the app
