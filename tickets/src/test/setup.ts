@@ -6,6 +6,9 @@ declare global {
   var signin: () => string[];
 }
 
+// tell jest which file to mock
+jest.mock("../nats-wrapper.ts");
+
 let mongo: any;
 beforeAll(async () => {
   //set up fake jwt token for test to access
@@ -17,6 +20,7 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+  jest.clearAllMocks();
   const collections = await mongoose.connection.db.collections();
 
   // clean up mongo memory server
