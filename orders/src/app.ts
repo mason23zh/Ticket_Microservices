@@ -6,10 +6,10 @@ import { Request, Response } from "express";
 
 import { NotFoundError, currentUser } from "@ortick/new-common";
 
-import { createTicketRouter } from "./routes/new";
-import { showTicketRouter } from "./routes/show";
-import { indexTicketRouter } from "./routes";
-import { updateTicketRouter } from "./routes/update";
+import { deleteOrderRouter } from "./routes/delete";
+import { showOrderRouter } from "./routes/show";
+import { newOrderRouter } from "./routes/new";
+import { indexOrderRouter } from "./routes";
 
 const app = express();
 app.set("trust proxy", true);
@@ -23,10 +23,10 @@ app.use(
 
 app.use(currentUser);
 
-app.use(createTicketRouter);
-app.use(showTicketRouter);
-app.use(indexTicketRouter);
-app.use(updateTicketRouter);
+app.use(deleteOrderRouter);
+app.use(showOrderRouter);
+app.use(newOrderRouter);
+app.use(indexOrderRouter);
 
 app.all("*", async (req: Request, res: Response) => {
   throw new NotFoundError();
