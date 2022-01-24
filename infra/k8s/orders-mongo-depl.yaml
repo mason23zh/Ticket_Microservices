@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orders-mongo-depl
+spec:
+  replicas: 1
+  selector: # how the deployment find the pod
+    matchLabels:
+      app: orders-mongo
+  template:
+    metadata:
+      labels: # the label been applied to the pod
+        app: orders-mongo
+    spec:
+      containers:
+        - name: orders-mongo
+          image: mongo
+#Cluster ip service for mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orders-mongo-srv #domain name
+spec:
+  selector: #find the pod with label of auth-mongo
+    app: orders-mongo
+  ports:
+    - name: db
+      protocol: TCP
+      port: 27017
+      targetPort: 27017

@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orders-depl
+spec:
+  replicas: 1 # number of pods to run
+  selector:
+    matchLabels: #Tell deployment how to find all the pods that it's going to create
+      app: orders
+  template: # How to create each individual pods
+    metadata:
+      labels:
+        app: orders
+    spec: #Tell the pod how to behave
+      containers:
+        - name: orders # only for logging
+          #image: us.gcr.io/ticket-dev-337200/auth gcloud build
+          image: orion232/orders
+          env:
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name #use pod name as nat client id
+            - name: NATS_URL
+              value: "http://nats-srv:4222"
+            - name: NATS_CLUSTER_ID
+              value: ticketing
+            - name: MONGO_URI
+              value: "mongodb://orders-mongo-srv:27017/orders"
+            - name: JWT_KEY # show inside the app
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+#Service define
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orders-srv
+spec: #tell services how to behave
+  selector: #how to find pod that govern access to
+    app: orders
+  type: ClusterIP
+  ports: #ports to expose
+    - name: orders
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

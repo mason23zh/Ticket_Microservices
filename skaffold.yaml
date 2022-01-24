@@ -34,3 +34,12 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: . #where to sync the file to
+    - image: orion232/orders
+      context: orders #folder contains the image
+      docker:
+        dockerfile: Dockerfile
+      sync: #how to handle all the files changes
+        manual:
+          - src: "src/**/*.ts"
+            dest: . #where to sync the file to
+
