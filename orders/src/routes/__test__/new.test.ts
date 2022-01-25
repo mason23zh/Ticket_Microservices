@@ -55,3 +55,5 @@ it("reserves a ticket succefully", async () => {
     .send({ ticketId: ticket.id })
     .expect(201);
 });
+
+it.todo("Emit event in new route handler");
