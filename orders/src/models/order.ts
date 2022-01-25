@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 import { OrderStatus } from "@ortick/new-common";
 import { TicketDoc } from "./ticket";
 
+export { OrderStatus };
+
 // what to create an order
 interface OrderAttrs {
   userId: string;
