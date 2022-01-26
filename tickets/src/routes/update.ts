@@ -29,8 +29,6 @@ router.put(
       throw new NotFoundError();
     }
 
-    console.log("ticket user id:", ticket.userId);
-    console.log("current user id:", req.currentUser!.id);
     if (ticket.userId !== req.currentUser!.id) {
       // current user will be defined by requerAuth middleware
       throw new NotAuthorizedError();
