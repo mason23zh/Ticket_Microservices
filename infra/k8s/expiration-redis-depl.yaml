@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: expiration-redis-depl
+spec:
+  replicas: 1
+  selector: # how the deployment find the pod
+    matchLabels:
+      app: expiration-redis
+  template:
+    metadata:
+      labels: # the label been applied to the pod
+        app: expiration-redis
+    spec:
+      containers:
+        - name: expiration-redis
+          image: redis
+#Cluster ip service for mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: expiration-redis-srv #domain name
+spec:
+  selector: #find the pod with label of auth-mongo
+    app: expiration-redis
+  ports:
+    - name: db
+      protocol: TCP
+      port: 6379
+      targetPort: 6379
